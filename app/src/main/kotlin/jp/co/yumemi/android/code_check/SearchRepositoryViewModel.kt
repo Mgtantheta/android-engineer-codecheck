@@ -19,9 +19,6 @@ import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.util.*
 
-/**
- * TwoFragment で使う
- */
 class SearchRepositoryViewModel(
     val context: Context
 ) : ViewModel() {
@@ -42,9 +39,6 @@ class SearchRepositoryViewModel(
 
             val items = mutableListOf<item>()
 
-            /**
-             * アイテムの個数分ループする
-             */
             for (i in 0 until jsonItems.length()) {
                 val jsonItem = jsonItems.optJSONObject(i)!!
                 val name = jsonItem.optString("full_name")
