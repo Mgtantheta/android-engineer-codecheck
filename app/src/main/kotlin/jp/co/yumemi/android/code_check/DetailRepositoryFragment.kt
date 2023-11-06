@@ -14,7 +14,7 @@ import jp.co.yumemi.android.code_check.databinding.FragmentDetailRepositoryBindi
 
 class DetailRepositoryFragment : Fragment(R.layout.fragment_detail_repository) {
 
-    private val args: TwoFragmentArgs by navArgs()
+    private val args: DetailRepositoryFragmentArgs by navArgs()
 
     private var binding: FragmentDetailRepositoryBinding? = null
     private val _binding get() = binding!!
