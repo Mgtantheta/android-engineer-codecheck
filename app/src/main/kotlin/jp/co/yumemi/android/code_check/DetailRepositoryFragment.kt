@@ -26,7 +26,7 @@ class DetailRepositoryFragment : Fragment(R.layout.fragment_detail_repository) {
 
         binding = FragmentDetailRepositoryBinding.bind(view)
 
-        var item = args.item
+        val item = args.item
 
         _binding.ownerIconView.load(item.ownerIconUrl);
         _binding.nameView.text = item.name;
