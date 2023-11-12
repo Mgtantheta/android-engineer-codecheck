@@ -19,16 +19,15 @@ import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.util.*
 
+const val BASE_URL = "https://api.github.com/search/repositories"
 class SearchRepositoryViewModel(
     val context: Context
 ) : ViewModel() {
-
-    // 検索結果
     fun searchResults(inputText: String): List<item> = runBlocking {
         val client = HttpClient(Android)
 
         return@runBlocking GlobalScope.async {
-            val response: HttpResponse = client?.get("https://api.github.com/search/repositories") {
+            val response: HttpResponse = client.get(BASE_URL) {
                 header("Accept", "application/vnd.github.v3+json")
                 parameter("q", inputText)
             }
