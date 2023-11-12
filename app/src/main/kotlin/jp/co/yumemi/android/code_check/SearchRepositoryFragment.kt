@@ -32,8 +32,8 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
             }
         })
 
-        binding.searchInputText
-            .setOnEditorActionListener { editText, action, _ ->
+        binding.run {
+            searchInputText.setOnEditorActionListener { editText, action, _ ->
                 if (action == EditorInfo.IME_ACTION_SEARCH) {
                     editText.text.toString().let {
                         viewModel.searchResults(it).apply {
@@ -44,11 +44,11 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
                 }
                 return@setOnEditorActionListener false
             }
-
-        binding.recyclerView.also {
-            it.layoutManager = layoutManager
-            it.addItemDecoration(dividerItemDecoration)
-            it.adapter = adapter
+            recyclerView.also {
+                it.layoutManager = layoutManager
+                it.addItemDecoration(dividerItemDecoration)
+                it.adapter = adapter
+            }
         }
     }
 
@@ -59,7 +59,7 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
     }
 }
 
-val diffUtil = object : DiffUtil.ItemCallback<item>() {
+private val diffUtil = object : DiffUtil.ItemCallback<item>() {
     override fun areItemsTheSame(oldItem: item, newItem: item): Boolean {
         return oldItem.name == newItem.name
     }
@@ -70,7 +70,7 @@ val diffUtil = object : DiffUtil.ItemCallback<item>() {
 
 }
 
-class CustomAdapter(
+private class CustomAdapter(
     private val itemClickListener: OnItemClickListener,
 ) : ListAdapter<item, CustomAdapter.ViewHolder>(diffUtil) {
 
