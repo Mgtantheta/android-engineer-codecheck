@@ -69,6 +69,8 @@ class SearchRepositoryViewModel(
     }
 }
 
+//TODO: このクラスは別ファイルに切り出す
+// TODO: 名前をGithubRepositoryItemに変更したいが、エラーが出てて変更できないため、一旦itemのままにしておく
 @Parcelize
 data class item(
     val name: String,
