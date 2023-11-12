@@ -19,19 +19,15 @@ import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.util.*
 
-/**
- * TwoFragment で使う
- */
-class OneViewModel(
+const val BASE_URL = "https://api.github.com/search/repositories"
+class SearchRepositoryViewModel(
     val context: Context
 ) : ViewModel() {
-
-    // 検索結果
     fun searchResults(inputText: String): List<item> = runBlocking {
         val client = HttpClient(Android)
 
         return@runBlocking GlobalScope.async {
-            val response: HttpResponse = client?.get("https://api.github.com/search/repositories") {
+            val response: HttpResponse = client.get(BASE_URL) {
                 header("Accept", "application/vnd.github.v3+json")
                 parameter("q", inputText)
             }
@@ -42,9 +38,6 @@ class OneViewModel(
 
             val items = mutableListOf<item>()
 
-            /**
-             * アイテムの個数分ループする
-             */
             for (i in 0 until jsonItems.length()) {
                 val jsonItem = jsonItems.optJSONObject(i)!!
                 val name = jsonItem.optString("full_name")
@@ -52,7 +45,7 @@ class OneViewModel(
                 val language = jsonItem.optString("language")
                 val stargazersCount = jsonItem.optLong("stargazers_count")
                 val watchersCount = jsonItem.optLong("watchers_count")
-                val forksCount = jsonItem.optLong("forks_conut")
+                val forksCount = jsonItem.optLong("forks_count")
                 val openIssuesCount = jsonItem.optLong("open_issues_count")
 
                 items.add(
@@ -75,6 +68,8 @@ class OneViewModel(
     }
 }
 
+//TODO: このクラスは別ファイルに切り出す
+// TODO: 名前をGithubRepositoryItemに変更したいが、エラーが出てて変更できないため、一旦itemのままにしておく
 @Parcelize
 data class item(
     val name: String,
