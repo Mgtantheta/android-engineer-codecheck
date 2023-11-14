@@ -8,47 +8,61 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import jp.co.yumemi.android.code_check.databinding.FragmentSearchRepositoryBinding
+import kotlinx.coroutines.launch
 
 class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
+    private val viewModel: SearchRepositoryViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val binding = FragmentSearchRepositoryBinding.bind(view)
+        val adapter = setupAdapter()
+        setupRecyclerView(binding.recyclerView, adapter)
+        setSearch(binding.searchInputText, adapter)
+    }
 
-        val viewModel = SearchRepositoryViewModel(requireContext())
-
-        val layoutManager = LinearLayoutManager(requireContext())
-        val dividerItemDecoration =
-            DividerItemDecoration(requireContext(), layoutManager.orientation)
-        val adapter = CustomAdapter(object : CustomAdapter.OnItemClickListener {
+    private fun setupAdapter(): CustomAdapter {
+        return CustomAdapter(object : CustomAdapter.OnItemClickListener {
             override fun itemClick(item: item) {
                 gotoRepositoryFragment(item)
             }
         })
+    }
 
-        binding.run {
-            searchInputText.setOnEditorActionListener { editText, action, _ ->
-                if (action == EditorInfo.IME_ACTION_SEARCH) {
-                    editText.text.toString().let {
-                        viewModel.searchResults(it).apply {
-                            adapter.submitList(this)
-                        }
-                    }
-                    return@setOnEditorActionListener true
-                }
-                return@setOnEditorActionListener false
+    private fun setupRecyclerView(recyclerView: RecyclerView, adapter: RecyclerView.Adapter<*>) {
+        val layoutManager = LinearLayoutManager(context)
+        val dividerItemDecoration = DividerItemDecoration(context, layoutManager.orientation)
+
+        recyclerView.layoutManager = layoutManager
+        recyclerView.addItemDecoration(dividerItemDecoration)
+        recyclerView.adapter = adapter
+    }
+
+    private fun setSearch(editText: EditText, adapter: CustomAdapter) {
+        editText.setOnEditorActionListener { _, action, _ ->
+            if (action == EditorInfo.IME_ACTION_SEARCH) {
+                val searchText = editText.text.toString()
+                performSearch(searchText, adapter)
+                true
+            } else {
+                false
             }
-            recyclerView.also {
-                it.layoutManager = layoutManager
-                it.addItemDecoration(dividerItemDecoration)
-                it.adapter = adapter
-            }
+        }
+    }
+
+    private fun performSearch(query: String, adapter: CustomAdapter) {
+        lifecycleScope.launch {
+            val results = viewModel.searchResults(query)
+            adapter.submitList(results)
         }
     }
 
