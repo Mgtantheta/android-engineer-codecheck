@@ -10,22 +10,25 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import jp.co.yumemi.android.code_check.databinding.FragmentSearchRepositoryBinding
+import kotlinx.coroutines.launch
 
 class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
-
+    private val viewModel: SearchRepositoryViewModel by lazy {
+        SearchRepositoryViewModel(requireContext())
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val binding = FragmentSearchRepositoryBinding.bind(view)
 
-        val viewModel = SearchRepositoryViewModel(requireContext())
-
-        val layoutManager = LinearLayoutManager(requireContext())
-        val dividerItemDecoration =
-            DividerItemDecoration(requireContext(), layoutManager.orientation)
+        val layoutManager = LinearLayoutManager(context)
+        val dividerItemDecoration = context?.let {
+            DividerItemDecoration(it, layoutManager.orientation)
+        }
         val adapter = CustomAdapter(object : CustomAdapter.OnItemClickListener {
             override fun itemClick(item: item) {
                 gotoRepositoryFragment(item)
@@ -46,7 +49,9 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
             }
             recyclerView.also {
                 it.layoutManager = layoutManager
-                it.addItemDecoration(dividerItemDecoration)
+                if (dividerItemDecoration != null) {
+                    it.addItemDecoration(dividerItemDecoration)
+                }
                 it.adapter = adapter
             }
         }
