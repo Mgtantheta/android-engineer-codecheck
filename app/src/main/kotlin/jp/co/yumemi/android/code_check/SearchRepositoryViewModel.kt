@@ -3,37 +3,33 @@
  */
 package jp.co.yumemi.android.code_check
 
-import android.content.Context
 import android.os.Parcelable
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.android.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import jp.co.yumemi.android.code_check.TopActivity.Companion.lastSearchDate
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.util.*
 
 const val BASE_URL = "https://api.github.com/search/repositories"
-class SearchRepositoryViewModel(
-    val context: Context
-) : ViewModel() {
-    fun searchResults(inputText: String): List<item> = runBlocking {
+const val ACCEPT_HEADER = "application/vnd.github.v3+json"
+class SearchRepositoryViewModel() : ViewModel() {
+    suspend fun searchResults(inputText: String): List<item> {
         val client = HttpClient(Android)
 
-        return@runBlocking GlobalScope.async {
+        return viewModelScope.async {
             val response: HttpResponse = client.get(BASE_URL) {
-                header("Accept", "application/vnd.github.v3+json")
+                header("Accept", ACCEPT_HEADER)
                 parameter("q", inputText)
             }
 
             val jsonBody = JSONObject(response.receive<String>())
-
             val jsonItems = jsonBody.optJSONArray("items")!!
 
             val items = mutableListOf<item>()
@@ -52,7 +48,7 @@ class SearchRepositoryViewModel(
                     item(
                         name = name,
                         ownerIconUrl = ownerIconUrl,
-                        language = context.getString(R.string.written_language, language),
+                        language = language,
                         stargazersCount = stargazersCount,
                         watchersCount = watchersCount,
                         forksCount = forksCount,

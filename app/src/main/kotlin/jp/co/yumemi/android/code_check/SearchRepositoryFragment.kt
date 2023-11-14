@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
@@ -17,9 +18,8 @@ import jp.co.yumemi.android.code_check.databinding.FragmentSearchRepositoryBindi
 import kotlinx.coroutines.launch
 
 class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
-    private val viewModel: SearchRepositoryViewModel by lazy {
-        SearchRepositoryViewModel(requireContext())
-    }
+    private val viewModel: SearchRepositoryViewModel by viewModels()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -39,8 +39,10 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
             searchInputText.setOnEditorActionListener { editText, action, _ ->
                 if (action == EditorInfo.IME_ACTION_SEARCH) {
                     editText.text.toString().let {
-                        viewModel.searchResults(it).apply {
-                            adapter.submitList(this)
+                        lifecycleScope.launch {
+                            viewModel.searchResults(it).apply {
+                                adapter.submitList(this)
+                            }
                         }
                     }
                     return@setOnEditorActionListener true
