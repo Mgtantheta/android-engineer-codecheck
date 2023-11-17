@@ -6,4 +6,12 @@
     <string name="watchers_count">%1$d watchers</string>
     <string name="forks_count">%1$d forks</string>
     <string name="open_issues_count">%1$d open issues</string>
+    <string name="jetbrains_kotlin">JetBrains/kotlin</string>
+    <string name="written_in_kotlin">Written in Kotlin</string>
+    <string name="_38530_stars">38530 stars</string>
+    <string name="_38530_watchers">38530 watchers</string>
+    <string name="_4675_forks">4675 forks</string>
+    <string name="_131_open_issues">131 open issues</string>
+    <string name="owner_icon_description">owner_icon_description</string>
+    <string name="yumemi_android_code_check">yumemi_android_code_check</string>
 </resources>
