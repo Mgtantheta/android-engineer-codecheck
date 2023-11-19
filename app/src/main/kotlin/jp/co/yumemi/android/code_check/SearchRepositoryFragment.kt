@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -45,8 +44,8 @@ class SearchRepositoryFragment : Fragment() {
         }
     }
 
-    private fun setupAdapter(): CustomAdapter {
-        return CustomAdapter(object : CustomAdapter.OnItemClickListener {
+    private fun setupAdapter(): SearchListAdapter {
+        return SearchListAdapter(object : SearchListAdapter.OnItemClickListener {
             override fun itemClick(item: item) {
                 gotoRepositoryFragment(item)
             }
@@ -92,40 +91,3 @@ class SearchRepositoryFragment : Fragment() {
     }
 }
 
-private val diffUtil = object : DiffUtil.ItemCallback<item>() {
-    override fun areItemsTheSame(oldItem: item, newItem: item): Boolean {
-        return oldItem.name == newItem.name
-    }
-
-    override fun areContentsTheSame(oldItem: item, newItem: item): Boolean {
-        return oldItem == newItem
-    }
-
-}
-
-private class CustomAdapter(
-    private val itemClickListener: OnItemClickListener,
-) : ListAdapter<item, CustomAdapter.ViewHolder>(diffUtil) {
-
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
-
-    interface OnItemClickListener {
-        fun itemClick(item: item)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.layout_item, parent, false)
-        return ViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)
-        (holder.itemView.findViewById<View>(R.id.repositoryNameView) as TextView).text =
-            item.name
-
-        holder.itemView.setOnClickListener {
-            itemClickListener.itemClick(item)
-        }
-    }
-}
