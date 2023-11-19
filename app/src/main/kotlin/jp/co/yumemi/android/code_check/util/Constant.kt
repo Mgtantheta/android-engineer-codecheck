@@ -1,4 +1,4 @@
-package jp.co.yumemi.android.code_check
+package jp.co.yumemi.android.code_check.util
 
 object Constant {
     const val BASE_URL = "https://api.github.com/search/repositories"
