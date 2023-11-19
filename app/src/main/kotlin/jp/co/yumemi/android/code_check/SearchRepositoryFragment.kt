@@ -13,8 +13,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
+import dagger.hilt.android.AndroidEntryPoint
 import jp.co.yumemi.android.code_check.databinding.FragmentSearchRepositoryBinding
 
+@AndroidEntryPoint
 class SearchRepositoryFragment : Fragment() {
     private val viewModel: SearchRepositoryViewModel by viewModels()
     private var _binding: FragmentSearchRepositoryBinding? = null

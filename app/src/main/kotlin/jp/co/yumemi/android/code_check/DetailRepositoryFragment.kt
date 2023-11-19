@@ -11,8 +11,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import coil.load
+import dagger.hilt.android.AndroidEntryPoint
 import jp.co.yumemi.android.code_check.databinding.FragmentDetailRepositoryBinding
 
+@AndroidEntryPoint
 class DetailRepositoryFragment : Fragment() {
 
     private val args: DetailRepositoryFragmentArgs by navArgs()
