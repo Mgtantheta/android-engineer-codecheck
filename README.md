@@ -8,7 +8,11 @@
 
 本アプリは GitHub のリポジトリを検索するアプリです。
 
-<img src="docs/app.gif" width="320">
+
+
+https://github.com/Mgtantheta/android-engineer-codecheck/assets/114408959/4aec159a-2b6d-42f9-9016-fb697ed3b552
+
+
 
 ### 環境
 
@@ -18,6 +22,8 @@
 - Gradle：8.0
 - minSdk：23
 - targetSdk：31
+- Pixel 7a (Android 13) 実機
+
 
 ※ ライブラリの利用はオープンソースのものに限ります。
 ※ 環境は適宜更新してください。
@@ -57,3 +63,7 @@ ChatGPTなどAIサービスの利用は禁止しておりません。
 また、弊社コードチェック担当者もAIサービスを利用させていただく場合があります。
 
 AIサービスの利用は差し控えてもらいたいなどのご要望がある場合は、お気軽にお申し出ください。
+
+## AI活用
+プルリクエストを作る際やテストコードを書く際、またHiltの使い方など実装に詰まった際に、ChatGPTに頼って作成した。
+[git diff＋ChatGPTでPRの説明文作成しよう！](https://qiita.com/185shingeki/items/0cf771e236026f1077ab)
