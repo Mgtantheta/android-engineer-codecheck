@@ -78,16 +78,3 @@ class SearchRepositoryViewModel() : ViewModel() {
         client.close()
     }
 }
-
-//TODO: このクラスは別ファイルに切り出す
-// TODO: 名前をGithubRepositoryItemに変更したいが、エラーが出てて変更できないため、一旦itemのままにしておく
-@Parcelize
-data class item(
-    val name: String,
-    val ownerIconUrl: String,
-    val language: String,
-    val stargazersCount: Long,
-    val watchersCount: Long,
-    val forksCount: Long,
-    val openIssuesCount: Long,
-) : Parcelable
