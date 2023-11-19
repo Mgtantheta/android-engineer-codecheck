@@ -90,6 +90,11 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
             .actionRepositoriesFragmentToRepositoryFragment(item = item)
         findNavController().navigate(action)
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
 
 private val diffUtil = object : DiffUtil.ItemCallback<item>() {
