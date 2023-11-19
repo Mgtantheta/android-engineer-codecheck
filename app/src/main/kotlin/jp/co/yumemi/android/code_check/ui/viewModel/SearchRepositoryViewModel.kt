@@ -22,17 +22,23 @@ class SearchRepositoryViewModel @Inject constructor(
     private val _gitHubRepositoryItems = MutableLiveData<List<GitHubRepositoryItem>>()
     val gitHubRepositoryItems: LiveData<List<GitHubRepositoryItem>> = _gitHubRepositoryItems
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     private val _error = MutableLiveData<String>()
 
     fun searchRepository(query: String) {
+        _isLoading.value = true
         viewModelScope.launch {
             repository.searchRepository(query).fold(
                 onSuccess = {
                     _gitHubRepositoryItems.postValue(it)
+                    _isLoading.postValue(false)
                     lastSearchDate = Date()
                 },
                 onFailure = {
                     _error.postValue(it.message)
+                    _isLoading.postValue(false)
                 }
             )
         }
