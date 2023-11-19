@@ -15,7 +15,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import jp.co.yumemi.android.code_check.databinding.FragmentSearchRepositoryBinding
 
-
 class SearchRepositoryFragment : Fragment() {
     private val viewModel: SearchRepositoryViewModel by viewModels()
     private var _binding: FragmentSearchRepositoryBinding? = null
@@ -76,7 +75,7 @@ class SearchRepositoryFragment : Fragment() {
     }
 
     private fun performSearch(query: String) {
-        viewModel.searchResults(query)
+        viewModel.searchRepository(query)
     }
 
     private fun gotoRepositoryFragment(item: GitHubRepositoryItem) {
