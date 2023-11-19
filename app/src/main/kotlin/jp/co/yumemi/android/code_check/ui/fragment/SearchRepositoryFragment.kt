@@ -46,6 +46,9 @@ class SearchRepositoryFragment : Fragment() {
         viewModel.gitHubRepositoryItems.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
+        }
     }
 
     private fun setupAdapter(): SearchListAdapter {
