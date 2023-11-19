@@ -31,19 +31,19 @@ class DetailRepositoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            val item = args.item
+            val gitHubRepositoryItem = args.gitHubRepositoryItem
 
-            ownerIconView.load(item.ownerIconUrl) {
+            ownerIconView.load(gitHubRepositoryItem.ownerIconUrl) {
                 listener(onError = { _, _ ->
                     Log.e("DetailRepositoryFragment", "画像のロードに失敗しました。")
                 })
             }
-            nameView.text = item.name
-            languageView.text = item.language
-            starsView.text = getString(R.string.stars_count, item.stargazersCount)
-            watchersView.text = getString(R.string.watchers_count, item.watchersCount)
-            forksView.text = getString(R.string.forks_count, item.forksCount)
-            openIssuesView.text = getString(R.string.open_issues_count, item.openIssuesCount)
+            nameView.text = gitHubRepositoryItem.name
+            languageView.text = gitHubRepositoryItem.language
+            starsView.text = getString(R.string.stars_count, gitHubRepositoryItem.stargazersCount)
+            watchersView.text = getString(R.string.watchers_count, gitHubRepositoryItem.watchersCount)
+            forksView.text = getString(R.string.forks_count, gitHubRepositoryItem.forksCount)
+            openIssuesView.text = getString(R.string.open_issues_count, gitHubRepositoryItem.openIssuesCount)
         }
     }
 

@@ -9,13 +9,13 @@ import jp.co.yumemi.android.code_check.databinding.LayoutItemBinding
 
 class SearchListAdapter(
     private val itemClickListener: OnItemClickListener,
-) : ListAdapter<item, SearchListAdapter.ViewHolder>(diffUtil) {
+) : ListAdapter<GitHubRepositoryItem, SearchListAdapter.ViewHolder>(diffUtil) {
 
     class ViewHolder(
         private val binding: LayoutItemBinding,
         private val itemClickListener: OnItemClickListener,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: item) {
+        fun bind(item: GitHubRepositoryItem) {
             binding.repositoryNameView.text = item.name
             binding.root.setOnClickListener {
                 itemClickListener.itemClick(item)
@@ -24,7 +24,7 @@ class SearchListAdapter(
     }
 
     interface OnItemClickListener {
-        fun itemClick(item: item)
+        fun itemClick(item: GitHubRepositoryItem)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,12 +37,12 @@ class SearchListAdapter(
     }
 }
 
-private val diffUtil = object : DiffUtil.ItemCallback<item>() {
-    override fun areItemsTheSame(oldItem: item, newItem: item): Boolean {
+private val diffUtil = object : DiffUtil.ItemCallback<GitHubRepositoryItem>() {
+    override fun areItemsTheSame(oldItem: GitHubRepositoryItem, newItem: GitHubRepositoryItem): Boolean {
         return oldItem.name == newItem.name
     }
 
-    override fun areContentsTheSame(oldItem: item, newItem: item): Boolean {
+    override fun areContentsTheSame(oldItem: GitHubRepositoryItem, newItem: GitHubRepositoryItem): Boolean {
         return oldItem == newItem
     }
 

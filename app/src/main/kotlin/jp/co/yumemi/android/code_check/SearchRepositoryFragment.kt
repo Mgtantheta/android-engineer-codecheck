@@ -39,14 +39,14 @@ class SearchRepositoryFragment : Fragment() {
         val adapter = setupAdapter()
         setupRecyclerView(binding.recyclerView, adapter)
         setSearch(binding.searchInputText)
-        viewModel.items.observe(viewLifecycleOwner) {
+        viewModel.gitHubRepositoryItems.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
     }
 
     private fun setupAdapter(): SearchListAdapter {
         return SearchListAdapter(object : SearchListAdapter.OnItemClickListener {
-            override fun itemClick(item: item) {
+            override fun itemClick(item: GitHubRepositoryItem) {
                 gotoRepositoryFragment(item)
             }
         })
@@ -79,9 +79,9 @@ class SearchRepositoryFragment : Fragment() {
         viewModel.searchResults(query)
     }
 
-    private fun gotoRepositoryFragment(item: item) {
+    private fun gotoRepositoryFragment(item: GitHubRepositoryItem) {
         val action = SearchRepositoryFragmentDirections
-            .actionRepositoriesFragmentToRepositoryFragment(item = item)
+            .actionSearchRepositoryFragmentToDetailRepositoryFragment(item)
         findNavController().navigate(action)
     }
 

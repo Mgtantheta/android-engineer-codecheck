@@ -3,7 +3,6 @@
  */
 package jp.co.yumemi.android.code_check
 
-import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,7 +14,6 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import jp.co.yumemi.android.code_check.TopActivity.Companion.lastSearchDate
 import kotlinx.coroutines.launch
-import kotlinx.parcelize.Parcelize
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
@@ -25,8 +23,8 @@ const val ACCEPT_HEADER = "application/vnd.github.v3+json"
 
 class SearchRepositoryViewModel() : ViewModel() {
     private val client: HttpClient = HttpClient(Android)
-    private val _items = MutableLiveData<List<item>>()
-    val items: LiveData<List<item>> = _items
+    private val _gitHubRepositoryItems = MutableLiveData<List<GitHubRepositoryItem>>()
+    val gitHubRepositoryItems: LiveData<List<GitHubRepositoryItem>> = _gitHubRepositoryItems
 
     fun searchResults(inputText: String) {
         viewModelScope.launch {
@@ -39,7 +37,7 @@ class SearchRepositoryViewModel() : ViewModel() {
                 val jsonBody = JSONObject(response.receive<String>())
                 val jsonItems: JSONArray? = jsonBody.optJSONArray("items")
 
-                val newItems = mutableListOf<item>()
+                val newItems = mutableListOf<GitHubRepositoryItem>()
                 jsonItems?.let { itemArray ->
                     for (i in 0 until itemArray.length()) {
                         val jsonItem: JSONObject? = itemArray.optJSONObject(i)
@@ -52,7 +50,7 @@ class SearchRepositoryViewModel() : ViewModel() {
                         val forksCount = jsonItem?.optLong("forks_count") ?: 0
                         val openIssuesCount = jsonItem?.optLong("open_issues_count") ?: 0
                         newItems.add(
-                            item(
+                            GitHubRepositoryItem(
                                 name = name,
                                 ownerIconUrl = ownerIconUrl,
                                 language = language,
@@ -65,7 +63,7 @@ class SearchRepositoryViewModel() : ViewModel() {
                     }
                 }
 
-                _items.postValue(newItems)
+                _gitHubRepositoryItems.postValue(newItems)
                 lastSearchDate = Date()
             } catch (e: Exception) {
                 e.printStackTrace()
