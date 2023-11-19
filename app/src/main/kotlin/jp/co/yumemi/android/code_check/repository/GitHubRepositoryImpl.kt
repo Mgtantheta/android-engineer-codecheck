@@ -1,6 +1,7 @@
-import jp.co.yumemi.android.code_check.GitHubApi
-import jp.co.yumemi.android.code_check.GitHubRepository
-import jp.co.yumemi.android.code_check.GitHubRepositoryItem
+package jp.co.yumemi.android.code_check.repository
+
+import jp.co.yumemi.android.code_check.api.GitHubApi
+import jp.co.yumemi.android.code_check.model.GitHubRepositoryItem
 import org.json.JSONObject
 
 class GitHubRepositoryImpl(private val api: GitHubApi) : GitHubRepository {
