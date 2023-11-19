@@ -24,12 +24,22 @@ class DetailRepositoryFragment : Fragment(R.layout.fragment_detail_repository) {
         with(binding) {
             val item = args.item
 
-        binding.ownerIconView.load(item.ownerIconUrl)
-        binding.nameView.text = item.name
-        binding.languageView.text = item.language
-        binding.starsView.text = getString(R.string.stars_count, item.stargazersCount)
-        binding.watchersView.text = getString(R.string.watchers_count, item.watchersCount)
-        binding.forksView.text = getString(R.string.forks_count, item.forksCount)
-        binding.openIssuesView.text = getString(R.string.open_issues_count, item.openIssuesCount)
+            ownerIconView.load(item.ownerIconUrl) {
+                listener(onError = { _, _ ->
+                    Log.e("DetailRepositoryFragment", "画像のロードに失敗しました。")
+                })
+            }
+            nameView.text = item.name
+            languageView.text = item.language
+            starsView.text = getString(R.string.stars_count, item.stargazersCount)
+            watchersView.text = getString(R.string.watchers_count, item.watchersCount)
+            forksView.text = getString(R.string.forks_count, item.forksCount)
+            openIssuesView.text = getString(R.string.open_issues_count, item.openIssuesCount)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
