@@ -39,11 +39,17 @@ class DetailRepositoryFragment : Fragment() {
                 })
             }
             nameView.text = gitHubRepositoryItem.name
-            languageView.text = gitHubRepositoryItem.language
+            if (gitHubRepositoryItem.language != "null") {
+                languageView.text = getString(R.string.written_language, gitHubRepositoryItem.language)
+            } else {
+                languageView.text= getString(R.string.no_language_specified)
+            }
             starsView.text = getString(R.string.stars_count, gitHubRepositoryItem.stargazersCount)
-            watchersView.text = getString(R.string.watchers_count, gitHubRepositoryItem.watchersCount)
+            watchersView.text =
+                getString(R.string.watchers_count, gitHubRepositoryItem.watchersCount)
             forksView.text = getString(R.string.forks_count, gitHubRepositoryItem.forksCount)
-            openIssuesView.text = getString(R.string.open_issues_count, gitHubRepositoryItem.openIssuesCount)
+            openIssuesView.text =
+                getString(R.string.open_issues_count, gitHubRepositoryItem.openIssuesCount)
         }
     }
 
