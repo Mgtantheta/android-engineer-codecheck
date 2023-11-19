@@ -26,7 +26,7 @@ class SearchRepositoryFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSearchRepositoryBinding.inflate(inflater, container, false)
         return binding.root
     }

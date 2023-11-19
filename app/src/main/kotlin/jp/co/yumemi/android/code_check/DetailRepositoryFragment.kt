@@ -23,7 +23,7 @@ class DetailRepositoryFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentDetailRepositoryBinding.inflate(inflater, container, false)
         return binding.root
     }
