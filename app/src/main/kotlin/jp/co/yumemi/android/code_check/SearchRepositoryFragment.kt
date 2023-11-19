@@ -12,11 +12,10 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import jp.co.yumemi.android.code_check.databinding.FragmentSearchRepositoryBinding
-import kotlinx.coroutines.launch
+
 
 class SearchRepositoryFragment : Fragment() {
     private val viewModel: SearchRepositoryViewModel by viewModels()
@@ -40,7 +39,10 @@ class SearchRepositoryFragment : Fragment() {
     private fun setupUI() {
         val adapter = setupAdapter()
         setupRecyclerView(binding.recyclerView, adapter)
-        setSearch(binding.searchInputText, adapter)
+        setSearch(binding.searchInputText)
+        viewModel.items.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
     }
 
     private fun setupAdapter(): CustomAdapter {
@@ -60,12 +62,12 @@ class SearchRepositoryFragment : Fragment() {
         recyclerView.adapter = adapter
     }
 
-    private fun setSearch(editText: EditText, adapter: CustomAdapter) {
+    private fun setSearch(editText: EditText) {
         editText.setOnEditorActionListener { _, action, _ ->
             if (action == EditorInfo.IME_ACTION_SEARCH) {
                 val searchText = editText.text.toString()
                 if (searchText.isNotEmpty()) {
-                    performSearch(searchText, adapter)
+                    performSearch(searchText)
                 }
                 true
             } else {
@@ -74,15 +76,8 @@ class SearchRepositoryFragment : Fragment() {
         }
     }
 
-    private fun performSearch(query: String, adapter: CustomAdapter) {
-        lifecycleScope.launch {
-            try {
-                val results = viewModel.searchResults(query)
-                adapter.submitList(results)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+    private fun performSearch(query: String) {
+        viewModel.searchResults(query)
     }
 
     private fun gotoRepositoryFragment(item: item) {
