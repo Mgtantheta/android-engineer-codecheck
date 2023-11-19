@@ -1,7 +1,7 @@
 /*
  * Copyright © 2021 YUMEMI Inc. All rights reserved.
  */
-package jp.co.yumemi.android.code_check
+package jp.co.yumemi.android.code_check.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,7 +14,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import dagger.hilt.android.AndroidEntryPoint
+import jp.co.yumemi.android.code_check.SearchListAdapter
 import jp.co.yumemi.android.code_check.databinding.FragmentSearchRepositoryBinding
+import jp.co.yumemi.android.code_check.model.GitHubRepositoryItem
+import jp.co.yumemi.android.code_check.ui.viewModel.SearchRepositoryViewModel
 
 @AndroidEntryPoint
 class SearchRepositoryFragment : Fragment() {
@@ -81,8 +84,8 @@ class SearchRepositoryFragment : Fragment() {
     }
 
     private fun gotoRepositoryFragment(item: GitHubRepositoryItem) {
-        val action = SearchRepositoryFragmentDirections
-            .actionSearchRepositoryFragmentToDetailRepositoryFragment(item)
+        val action =
+            SearchRepositoryFragmentDirections.actionSearchRepositoryFragmentToDetailRepositoryFragment(item)
         findNavController().navigate(action)
     }
 

@@ -1,10 +1,9 @@
 /*
  * Copyright © 2021 YUMEMI Inc. All rights reserved.
  */
-package jp.co.yumemi.android.code_check
+package jp.co.yumemi.android.code_check.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import coil.load
 import dagger.hilt.android.AndroidEntryPoint
+import jp.co.yumemi.android.code_check.R
 import jp.co.yumemi.android.code_check.databinding.FragmentDetailRepositoryBinding
 
 @AndroidEntryPoint
@@ -35,11 +35,7 @@ class DetailRepositoryFragment : Fragment() {
         with(binding) {
             val gitHubRepositoryItem = args.gitHubRepositoryItem
 
-            ownerIconView.load(gitHubRepositoryItem.ownerIconUrl) {
-                listener(onError = { _, _ ->
-                    Log.e("DetailRepositoryFragment", "画像のロードに失敗しました。")
-                })
-            }
+            ownerIconView.load(gitHubRepositoryItem.ownerIconUrl)
             nameView.text = gitHubRepositoryItem.name
             if (gitHubRepositoryItem.language != "null") {
                 languageView.text = getString(R.string.written_language, gitHubRepositoryItem.language)
