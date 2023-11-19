@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.*
 import jp.co.yumemi.android.code_check.databinding.FragmentSearchRepositoryBinding
 import kotlinx.coroutines.launch
 
-class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
+class SearchRepositoryFragment : Fragment() {
     private val viewModel: SearchRepositoryViewModel by viewModels()
     private var _binding: FragmentSearchRepositoryBinding? = null
     private val binding get() = _binding!!

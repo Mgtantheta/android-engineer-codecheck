@@ -11,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import jp.co.yumemi.android.code_check.databinding.FragmentDetailRepositoryBinding
 
-class DetailRepositoryFragment : Fragment(R.layout.fragment_detail_repository) {
+class DetailRepositoryFragment : Fragment() {
 
     private val args: DetailRepositoryFragmentArgs by navArgs()
     private var _binding: FragmentDetailRepositoryBinding? = null
