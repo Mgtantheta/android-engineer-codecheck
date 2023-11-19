@@ -66,6 +66,20 @@ dependencies {
     // Hilt
     implementation "com.google.dagger:hilt-android:2.44"
     kapt "com.google.dagger:hilt-android-compiler:2.44"
+
+    // テスト関係の依存関係
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test:rules:1.4.0'
+    // JUnit4
+    testImplementation 'junit:junit:4.13.2'
+    // Mockito for mocking in tests
+    testImplementation 'org.mockito:mockito-core:5.1.0'
+    // Coroutine Test
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1'
+    // LiveData Test
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+
 }
 kapt {
     correctErrorTypes true
