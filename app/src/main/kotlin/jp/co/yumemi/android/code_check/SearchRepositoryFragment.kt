@@ -13,9 +13,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
+import dagger.hilt.android.AndroidEntryPoint
 import jp.co.yumemi.android.code_check.databinding.FragmentSearchRepositoryBinding
 
-
+@AndroidEntryPoint
 class SearchRepositoryFragment : Fragment() {
     private val viewModel: SearchRepositoryViewModel by viewModels()
     private var _binding: FragmentSearchRepositoryBinding? = null
@@ -39,14 +40,14 @@ class SearchRepositoryFragment : Fragment() {
         val adapter = setupAdapter()
         setupRecyclerView(binding.recyclerView, adapter)
         setSearch(binding.searchInputText)
-        viewModel.items.observe(viewLifecycleOwner) {
+        viewModel.gitHubRepositoryItems.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
     }
 
     private fun setupAdapter(): SearchListAdapter {
         return SearchListAdapter(object : SearchListAdapter.OnItemClickListener {
-            override fun itemClick(item: item) {
+            override fun itemClick(item: GitHubRepositoryItem) {
                 gotoRepositoryFragment(item)
             }
         })
@@ -76,12 +77,12 @@ class SearchRepositoryFragment : Fragment() {
     }
 
     private fun performSearch(query: String) {
-        viewModel.searchResults(query)
+        viewModel.searchRepository(query)
     }
 
-    private fun gotoRepositoryFragment(item: item) {
+    private fun gotoRepositoryFragment(item: GitHubRepositoryItem) {
         val action = SearchRepositoryFragmentDirections
-            .actionRepositoriesFragmentToRepositoryFragment(item = item)
+            .actionSearchRepositoryFragmentToDetailRepositoryFragment(item)
         findNavController().navigate(action)
     }
 
