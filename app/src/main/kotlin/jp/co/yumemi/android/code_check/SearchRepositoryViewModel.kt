@@ -3,71 +3,38 @@
  */
 package jp.co.yumemi.android.code_check
 
+import GitHubRepositoryImpl
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.ktor.client.*
-import io.ktor.client.call.*
 import io.ktor.client.engine.android.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
 import jp.co.yumemi.android.code_check.TopActivity.Companion.lastSearchDate
 import kotlinx.coroutines.launch
-import org.json.JSONArray
-import org.json.JSONObject
 import java.util.*
 
-const val BASE_URL = "https://api.github.com/search/repositories"
-const val ACCEPT_HEADER = "application/vnd.github.v3+json"
-
 class SearchRepositoryViewModel() : ViewModel() {
-    private val client: HttpClient = HttpClient(Android)
+    private val client = HttpClient(Android)
+    private val api: GitHubApi = GitHubApiImpl(client)
+    private val repository: GitHubRepository = GitHubRepositoryImpl(api)
+
     private val _gitHubRepositoryItems = MutableLiveData<List<GitHubRepositoryItem>>()
     val gitHubRepositoryItems: LiveData<List<GitHubRepositoryItem>> = _gitHubRepositoryItems
 
-    fun searchResults(inputText: String) {
+    private val _error = MutableLiveData<String>()
+
+    fun searchRepository(query: String) {
         viewModelScope.launch {
-            try {
-                val response: HttpResponse = client.get(BASE_URL) {
-                    header("Accept", ACCEPT_HEADER)
-                    parameter("q", inputText)
+            repository.searchRepository(query).fold(
+                onSuccess = {
+                    _gitHubRepositoryItems.postValue(it)
+                    lastSearchDate = Date()
+                },
+                onFailure = {
+                    _error.postValue(it.message)
                 }
-
-                val jsonBody = JSONObject(response.receive<String>())
-                val jsonItems: JSONArray? = jsonBody.optJSONArray("items")
-
-                val newItems = mutableListOf<GitHubRepositoryItem>()
-                jsonItems?.let { itemArray ->
-                    for (i in 0 until itemArray.length()) {
-                        val jsonItem: JSONObject? = itemArray.optJSONObject(i)
-                        val name = jsonItem?.optString("full_name") ?: ""
-                        val ownerIconUrl =
-                            jsonItem?.optJSONObject("owner")?.optString("avatar_url") ?: ""
-                        val language = jsonItem?.optString("language") ?: ""
-                        val stargazersCount = jsonItem?.optLong("stargazers_count") ?: 0
-                        val watchersCount = jsonItem?.optLong("watchers_count") ?: 0
-                        val forksCount = jsonItem?.optLong("forks_count") ?: 0
-                        val openIssuesCount = jsonItem?.optLong("open_issues_count") ?: 0
-                        newItems.add(
-                            GitHubRepositoryItem(
-                                name = name,
-                                ownerIconUrl = ownerIconUrl,
-                                language = language,
-                                stargazersCount = stargazersCount,
-                                watchersCount = watchersCount,
-                                forksCount = forksCount,
-                                openIssuesCount = openIssuesCount
-                            )
-                        )
-                    }
-                }
-
-                _gitHubRepositoryItems.postValue(newItems)
-                lastSearchDate = Date()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+            )
         }
     }
 
