@@ -73,8 +73,9 @@ class SearchRepositoryViewModel() : ViewModel() {
         }
     }
 
-            return@async items.toList()
-        }.await()
+    override fun onCleared() {
+        super.onCleared()
+        client.close()
     }
 }
 
