@@ -76,8 +76,12 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
 
     private fun performSearch(query: String, adapter: CustomAdapter) {
         lifecycleScope.launch {
-            val results = viewModel.searchResults(query)
-            adapter.submitList(results)
+            try {
+                val results = viewModel.searchResults(query)
+                adapter.submitList(results)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
