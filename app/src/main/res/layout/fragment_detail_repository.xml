@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,7 +9,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="16dp"
-        android:contentDescription="@null"
+        android:contentDescription="@string/owner_icon_description"
         android:src="@drawable/jetbrains"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,11 +19,11 @@
 
     <TextView
         android:id="@+id/nameView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="JetBrains/kotlin"
-        android:textColor="@color/black"
+        android:text="@string/jetbrains_kotlin"
+        android:textColor="@color/textPrimary"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,8 +31,8 @@
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/centerGuid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
@@ -43,11 +42,12 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:text="Written in Kotlin"
-        android:textColor="@color/black"
+        android:text="@string/written_in_kotlin"
+        android:textColor="@color/textPrimary"
         android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/nameView"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintEnd_toStartOf="@+id/centerGuid"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nameView" />
 
     <TextView
         android:id="@+id/starsView"
@@ -55,9 +55,9 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:text="38530 stars"
+        android:text="@string/_38530_stars"
         android:textAlignment="textEnd"
-        android:textColor="@color/black"
+        android:textColor="@color/textPrimary"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/centerGuid"
@@ -69,9 +69,9 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:text="38530 watchers"
+        android:text="@string/_38530_watchers"
         android:textAlignment="textEnd"
-        android:textColor="@color/black"
+        android:textColor="@color/textPrimary"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/centerGuid"
@@ -83,12 +83,12 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:text="4675 forks"
+        android:text="@string/_4675_forks"
         android:textAlignment="textEnd"
-        android:textColor="@color/black"
+        android:textColor="@color/textPrimary"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="@id/centerGuid"
+        app:layout_constraintStart_toStartOf="@id/centerGuid"
         app:layout_constraintTop_toBottomOf="@id/watchersView" />
 
     <TextView
@@ -97,9 +97,9 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:text="131 open issues"
+        android:text="@string/_131_open_issues"
         android:textAlignment="textEnd"
-        android:textColor="@color/black"
+        android:textColor="@color/textPrimary"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/centerGuid"

@@ -12,22 +12,37 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import jp.co.yumemi.android.code_check.databinding.FragmentSearchRepositoryBinding
-import kotlinx.coroutines.launch
 
-class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
+
+class SearchRepositoryFragment : Fragment() {
     private val viewModel: SearchRepositoryViewModel by viewModels()
+    private var _binding: FragmentSearchRepositoryBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentSearchRepositoryBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupUI()
+    }
 
-        val binding = FragmentSearchRepositoryBinding.bind(view)
+    private fun setupUI() {
         val adapter = setupAdapter()
         setupRecyclerView(binding.recyclerView, adapter)
-        setSearch(binding.searchInputText, adapter)
+        setSearch(binding.searchInputText)
+        viewModel.items.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
     }
 
     private fun setupAdapter(): CustomAdapter {
@@ -47,11 +62,13 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
         recyclerView.adapter = adapter
     }
 
-    private fun setSearch(editText: EditText, adapter: CustomAdapter) {
+    private fun setSearch(editText: EditText) {
         editText.setOnEditorActionListener { _, action, _ ->
             if (action == EditorInfo.IME_ACTION_SEARCH) {
                 val searchText = editText.text.toString()
-                performSearch(searchText, adapter)
+                if (searchText.isNotEmpty()) {
+                    performSearch(searchText)
+                }
                 true
             } else {
                 false
@@ -59,17 +76,19 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
         }
     }
 
-    private fun performSearch(query: String, adapter: CustomAdapter) {
-        lifecycleScope.launch {
-            val results = viewModel.searchResults(query)
-            adapter.submitList(results)
-        }
+    private fun performSearch(query: String) {
+        viewModel.searchResults(query)
     }
 
     private fun gotoRepositoryFragment(item: item) {
         val action = SearchRepositoryFragmentDirections
             .actionRepositoriesFragmentToRepositoryFragment(item = item)
         findNavController().navigate(action)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
 
