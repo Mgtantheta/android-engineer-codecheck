@@ -15,17 +15,14 @@ import jp.co.yumemi.android.code_check.databinding.FragmentDetailRepositoryBindi
 class DetailRepositoryFragment : Fragment(R.layout.fragment_detail_repository) {
 
     private val args: DetailRepositoryFragmentArgs by navArgs()
-
-    private lateinit var binding: FragmentDetailRepositoryBinding
+    private var _binding: FragmentDetailRepositoryBinding? = null
+    private val binding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        Log.d("検索した日時", lastSearchDate.toString())
-
-        binding = FragmentDetailRepositoryBinding.bind(view)
-
-        val item = args.item
+        _binding = FragmentDetailRepositoryBinding.bind(view)
+        with(binding) {
+            val item = args.item
 
         binding.ownerIconView.load(item.ownerIconUrl)
         binding.nameView.text = item.name
