@@ -64,7 +64,9 @@ class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
         editText.setOnEditorActionListener { _, action, _ ->
             if (action == EditorInfo.IME_ACTION_SEARCH) {
                 val searchText = editText.text.toString()
-                performSearch(searchText, adapter)
+                if (searchText.isNotEmpty()) {
+                    performSearch(searchText, adapter)
+                }
                 true
             } else {
                 false
