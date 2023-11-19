@@ -1,6 +1,5 @@
-package jp.co.yumemi.android.code_check
+package jp.co.yumemi.android.code_check.di
 
-import GitHubRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -8,6 +7,10 @@ import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
+import jp.co.yumemi.android.code_check.api.GitHubApiImpl
+import jp.co.yumemi.android.code_check.api.GitHubApi
+import jp.co.yumemi.android.code_check.repository.GitHubRepository
+import jp.co.yumemi.android.code_check.repository.GitHubRepositoryImpl
 
 @Module
 @InstallIn(ViewModelComponent::class)
