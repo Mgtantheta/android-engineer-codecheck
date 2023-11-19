@@ -20,11 +20,24 @@ import kotlinx.coroutines.launch
 
 class SearchRepositoryFragment : Fragment(R.layout.fragment_search_repository) {
     private val viewModel: SearchRepositoryViewModel by viewModels()
+    private var _binding: FragmentSearchRepositoryBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentSearchRepositoryBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupUI()
+    }
 
-        val binding = FragmentSearchRepositoryBinding.bind(view)
+    private fun setupUI() {
         val adapter = setupAdapter()
         setupRecyclerView(binding.recyclerView, adapter)
         setSearch(binding.searchInputText, adapter)
