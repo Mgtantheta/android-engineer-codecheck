@@ -59,6 +59,8 @@
         android:textAlignment="textEnd"
         android:textColor="@color/textPrimary"
         android:textSize="12sp"
+        app:drawableLeftCompat="@drawable/baseline_star_outline_24"
+        app:drawableTint="@color/textPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/centerGuid"
         app:layout_constraintTop_toBottomOf="@id/nameView" />
@@ -73,6 +75,8 @@
         android:textAlignment="textEnd"
         android:textColor="@color/textPrimary"
         android:textSize="12sp"
+        app:drawableLeftCompat="@drawable/baseline_remove_red_eye_24"
+        app:drawableTint="@color/textPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/centerGuid"
         app:layout_constraintTop_toBottomOf="@id/starsView" />
@@ -87,6 +91,8 @@
         android:textAlignment="textEnd"
         android:textColor="@color/textPrimary"
         android:textSize="12sp"
+        app:drawableLeftCompat="@drawable/baseline_device_hub_24"
+        app:drawableTint="@color/textPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/centerGuid"
         app:layout_constraintTop_toBottomOf="@id/watchersView" />
@@ -101,6 +107,8 @@
         android:textAlignment="textEnd"
         android:textColor="@color/textPrimary"
         android:textSize="12sp"
+        app:drawableLeftCompat="@drawable/baseline_bug_report_24"
+        app:drawableTint="@color/textPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/centerGuid"
         app:layout_constraintTop_toBottomOf="@id/forksView" />
