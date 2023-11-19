@@ -3,22 +3,20 @@
  */
 package jp.co.yumemi.android.code_check
 
-import GitHubRepositoryImpl
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.ktor.client.*
-import io.ktor.client.engine.android.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import jp.co.yumemi.android.code_check.TopActivity.Companion.lastSearchDate
 import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 
-class SearchRepositoryViewModel() : ViewModel() {
-    private val client = HttpClient(Android)
-    private val api: GitHubApi = GitHubApiImpl(client)
-    private val repository: GitHubRepository = GitHubRepositoryImpl(api)
-
+@HiltViewModel
+class SearchRepositoryViewModel @Inject constructor(
+    private val repository: GitHubRepository
+) : ViewModel() {
     private val _gitHubRepositoryItems = MutableLiveData<List<GitHubRepositoryItem>>()
     val gitHubRepositoryItems: LiveData<List<GitHubRepositoryItem>> = _gitHubRepositoryItems
 
@@ -36,10 +34,5 @@ class SearchRepositoryViewModel() : ViewModel() {
                 }
             )
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        client.close()
     }
 }
